@@ -35,12 +35,7 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -59,17 +54,30 @@ return [
     |
     */
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+    'guards' => [
+        'central' => [
+            'driver' => 'jwt',
+            'provider' => 'central_users',
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'district' => [
+            'driver' => 'jwt',
+            'provider' => 'district_users',
+        ],
     ],
+
+    'providers' => [
+        'central_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Central\User::class,
+            'connection' => 'central'
+        ],
+        'district_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\District\User::class,
+            'connection' => 'district'
+        ],
+    ],
+
 
     /*
     |--------------------------------------------------------------------------
